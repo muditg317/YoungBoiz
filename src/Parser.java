@@ -1,6 +1,8 @@
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class Parser {
     public static Object[] readFile(String path) throws FileNotFoundException {
@@ -34,5 +36,16 @@ public class Parser {
         return returnData;
     }
 
+    public static void writeFile() throws Exception {
+        File file = new File("output.txt");
+        BufferedWriter output = new BufferedWriter(new FileWriter(file));
+        output.write("this is stupid");
+        output.newLine();
+        output.write("ho");
+        output.close();
+    }
 
+    public static void main(String[] args) throws Exception {
+        writeFile();
+    }
 }
