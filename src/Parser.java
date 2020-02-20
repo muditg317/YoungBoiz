@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
@@ -26,7 +29,7 @@ public class Parser {
 
         for(int i = 0; i < amountOfLibraries; i++) {
             int currentBooks = sc.nextInt();
-            libraries[i] = new Library(sc.nextInt(), sc.nextInt());
+            libraries[i] = new Library(sc.nextInt(), sc.nextInt(), i);
             for(int j = 0; j < currentBooks; j++) {
                 libraries[i].addBook(allBooks[sc.nextInt()]);
             }
@@ -36,16 +39,19 @@ public class Parser {
         return returnData;
     }
 
-    public static void writeFile() throws Exception {
+    public static void writeFile(List<Library> order) throws Exception {
         File file = new File("output.txt");
         BufferedWriter output = new BufferedWriter(new FileWriter(file));
-        output.write("this is stupid");
+        output.write(Integer.toString(order.size()));
         output.newLine();
-        output.write("ho");
+        for (Library library : order) {
+            output.write(library.id + " " + library.books.size());
+            output.newLine();
+            for (Book book: library.books) {
+                output.write(book.getId() + " ");
+            }
+            output.newLine();
+        }
         output.close();
-    }
-
-    public static void main(String[] args) throws Exception {
-        writeFile();
     }
 }

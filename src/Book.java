@@ -15,7 +15,15 @@ public class Book implements Comparable<Book>{
         return score;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String toString() {
         return id + ": " + score;
+    }
+
+    public int hashCode() {
+        return id;
     }
 }
