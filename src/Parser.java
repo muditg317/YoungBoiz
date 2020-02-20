@@ -39,8 +39,8 @@ public class Parser {
         return returnData;
     }
 
-    public static void writeFile(List<Library> order) throws Exception {
-        File file = new File("output.txt");
+    public static void writeFile(String fileName, List<Library> order) throws Exception {
+        File file = new File(fileName+"OUT.txt");
         BufferedWriter output = new BufferedWriter(new FileWriter(file));
         output.write(Integer.toString(order.size()));
         output.newLine();

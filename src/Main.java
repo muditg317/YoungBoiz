@@ -8,18 +8,28 @@ public class Main {
     static List<Library> librarySchedule;
     public static void main(String[] args) throws Exception {
         //atom://teletype/portal/7d3de1d5-1bed-45cd-9b82-051a56f6d236 <- paste to teletype
-        String file = "src/res/b_read_on.txt";
+        String[] files = {
+            "src/res/a_example.txt",
+            "src/res/b_read_on.txt",
+            "src/res/c_incunabula.txt",
+            "src/res/d_tough_choices.txt",
+            "src/res/e_so_many_books.txt",
+            "src/res/f_libraries_of_the_world.txt",
+        };
 
-        Object[] data = Parser.readFile(file);
+        for (String file : files) {
+            System.out.println(file);
+            Object[] data = Parser.readFile(file);
 
-        totalDays = (int) data[0];
-        allBooks = (Book[]) data[1];
-        Library[] arrLibs = (Library[]) data[2];
-        allLibraries = new ArrayList<>(Arrays.asList(arrLibs));
-        scannedBooks = new HashSet();
-        librarySchedule = generateSchedule(totalDays, new ArrayList<Library>());
-        System.out.println(getScoreFromLibraries(librarySchedule));
-        Parser.writeFile(librarySchedule);
+            totalDays = (int) data[0];
+            allBooks = (Book[]) data[1];
+            Library[] arrLibs = (Library[]) data[2];
+            allLibraries = new ArrayList<>(Arrays.asList(arrLibs));
+            scannedBooks = new HashSet();
+            librarySchedule = generateSchedule(totalDays, new ArrayList<Library>());
+            System.out.println(getScoreFromLibraries(librarySchedule));
+            Parser.writeFile(file, librarySchedule);
+        }
     }
 
     public static List<Library> generateSchedule(int daysLeft, List<Library> schedule) {
@@ -28,8 +38,8 @@ public class Main {
             return schedule;
         }
 
-        Library maxLib = maxScoreOverSetUp(daysLeft, scannedBooks);
-
+        //Library maxLib = maxScoreOverSetUp(daysLeft, scannedBooks);
+        Library maxLib = opCostAlgo(daysLeft);
         //we choose maxLib to add to our schedule
         maxLib.publish(daysLeft, scannedBooks);
         if (maxLib.books.size() > 0) {
@@ -40,7 +50,7 @@ public class Main {
         if (daysLeft <= 0) {
             return schedule; //rippo my bippo
         }
-        return generateSchedule(daysLeft - maxLib.signUpTime, schedule);
+        return generateSchedule(daysLeft, schedule);
     }
 
     public static Library maxScoreOverSetUp(int daysLeft, Set<Book> scannedBooks) {
@@ -60,20 +70,20 @@ public class Main {
         return maxLib;
     }
 
-    public static Library opCostAlgo (int daysLeft, List<Library> schedule) {
-        int maxVal = allLibraries.get(0).score(daysLeft, scannedBooks) / allLibraries.get(0).signUpTime;
-        Library maxLib = allLibraries.get(0);
+    public static Library opCostAlgo (int daysLeft) {
+        Library minLib = allLibraries.get(0);
+        int minOpCost = getOpCostSum(allLibraries.get(0));
         for (Library lib : allLibraries) {
             if (lib.signUpTime > daysLeft) {
                 continue; //ignore this library
             }
-            int libVal = lib.score(daysLeft, scannedBooks) / lib.signUpTime;
-            if (libVal > maxVal) {
-                maxLib = lib;
-                maxVal = libVal;
+            int libOpCost = getOpCostSum(lib);
+            if (libOpCost < minOpCost) {
+                minLib = lib;
+                minOpCost = libOpCost;
             }
         }
-        return maxLib;
+        return minLib;
     }
 
     /**
@@ -81,11 +91,15 @@ public class Main {
      * @param  lib [description]
      * @return     [description]
      */
-    private static int getOpCost(Library lib) {
+    private static int getOpCostSum(Library lib) {
+        int opCostSum = 0;
         for (Library curr : allLibraries) {
-
+            if (curr == lib) {
+                continue; //skip itself
+            }
+            opCostSum += curr.getOpCost(lib, scannedBooks);
         }
-        return 0;
+        return opCostSum;
     }
 
     private static int getScoreFromLibraries(List<Library> order) {

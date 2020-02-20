@@ -71,10 +71,18 @@ public class Library {
      */
     public int getOpCost(Library other, Set<Book> scannedBooks) {
         int days = other.signUpTime;
-        for (int day = 0; day < daysLeft; day++) {
-
+        int opCost = 0;
+        int book = books.size() - 1;
+        for (int i = 0; i < days * booksPerDay && book >= 0; i++) {
+            Book b = books.get(book);
+            if (other.bookSet.contains(b) || scannedBooks.contains(b)) {
+                i--; //skip this book
+            } else {
+                opCost += b.getScore();
+            }
+            book++;
         }
-        return 0;
+        return opCost;
     }
     /**
      * Adds the books this will scan to the scannedBook set and
