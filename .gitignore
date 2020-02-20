@@ -24,7 +24,7 @@ hs_err_pid*
 
 .idea
 .idea/*
-.out
-.out/*
+out
+out/*
 
 .DS_Store
