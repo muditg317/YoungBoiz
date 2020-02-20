@@ -9,12 +9,12 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //atom://teletype/portal/7d3de1d5-1bed-45cd-9b82-051a56f6d236 <- paste to teletype
         String[] files = {
-            "src/res/a_example.txt",
-            "src/res/b_read_on.txt",
-            // "src/res/c_incunabula.txt",
-            "src/res/d_tough_choices.txt",
-            "src/res/e_so_many_books.txt",
-            "src/res/f_libraries_of_the_world.txt",
+//            "src/res/a_example.txt",
+//            "src/res/b_read_on.txt",
+//             "src/res/c_incunabula.txt",
+             "src/res/d_tough_choices.txt",
+//            "src/res/f_libraries_of_the_world.txt",
+//            "src/res/e_so_many_books.txt",
         };
 
         for (String file : files) {

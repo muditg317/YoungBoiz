@@ -80,7 +80,7 @@ public class Library {
             } else {
                 opCost += b.getScore();
             }
-            book++;
+            book--;
         }
         return opCost;
     }
