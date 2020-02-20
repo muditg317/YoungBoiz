@@ -16,6 +16,6 @@ public class Book implements Comparable<Book>{
     }
 
     public String toString() {
-        return((Integer.toString(score)));
+        return id + ": " + score;
     }
 }
