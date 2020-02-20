@@ -1,7 +1,9 @@
 public class Book implements Comparable<Book>{
     private int score;
+    private int id;
 
-    public Book(int score) {
+    public Book(int score, int id) {
+        this.id = id;
         this.score = score;
     }
 
@@ -14,6 +16,6 @@ public class Book implements Comparable<Book>{
     }
 
     public String toString() {
-        return((Integer.toString(score)));
+        return id + ": " + score;
     }
 }

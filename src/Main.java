@@ -7,7 +7,8 @@ public class Main {
     static Set<Integer> scannedBooks;
     static ArrayList<Library> librarySchedule;
     public static void main(String[] args) throws Exception {
-        String file = "e_so_many_books.txt";
+        //atom://teletype/portal/7d3de1d5-1bed-45cd-9b82-051a56f6d236 <- paste to teletype
+        String file = "src/res/a_example.txt";
 
         Object[] data = Parser.readFile(file);
 
