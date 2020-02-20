@@ -11,7 +11,7 @@ public class Main {
         String[] files = {
             "src/res/a_example.txt",
             "src/res/b_read_on.txt",
-            "src/res/c_incunabula.txt",
+            // "src/res/c_incunabula.txt",
             "src/res/d_tough_choices.txt",
             "src/res/e_so_many_books.txt",
             "src/res/f_libraries_of_the_world.txt",
