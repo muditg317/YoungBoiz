@@ -93,13 +93,11 @@ public class Library {
 
         daysLeft -= signUpTime;
         ArrayList<Book> finalBooks = new ArrayList<>(books.size());
-        int score = 0;
         int book = 0;
         for (int day = 0; day < daysLeft; day++) {
             for (int i = 0; i < booksPerDay && book < books.size(); i++) {
                 if (scannedBooks.add(books.get(book))) {
                     finalBooks.add(books.get(book));
-                    score += books.get(book).getScore();
                 } else {
                     i--; //since we skipped a book
                 }

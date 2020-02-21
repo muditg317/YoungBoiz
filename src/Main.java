@@ -25,13 +25,22 @@ public class Main {
             allBooks = (Book[]) data[1];
             Library[] arrLibs = (Library[]) data[2];
             allLibraries = new ArrayList<>(Arrays.asList(arrLibs));
+            randomlySelectLibraries(1000);
             scannedBooks = new HashSet();
-            librarySchedule = generateSchedule(totalDays, new ArrayList<Library>());
+            //librarySchedule = generateSchedule(totalDays, new ArrayList<Library>());
+            librarySchedule = generateScheduleIteratively();
             System.out.println(getScoreFromLibraries(librarySchedule));
             Parser.writeFile(file, librarySchedule);
         }
     }
-
+    public static void randomlySelectLibraries(int numLibs) {
+        ArrayList<Library> newLibs = new ArrayList<>(numLibs);
+        for (int i = 0; i < numLibs && allLibraries.size() > 0; i++) {
+            int index = (int) (Math.random() * allLibraries.size());
+            newLibs.add(allLibraries.remove(index));
+        }
+        allLibraries = newLibs;
+    }
     public static List<Library> generateSchedule(int daysLeft, List<Library> schedule) {
         //maxVal is score/signUpTime
         if (daysLeft <= 0 || allLibraries.size() == 0) {
@@ -53,6 +62,25 @@ public class Main {
         return generateSchedule(daysLeft, schedule);
     }
 
+    public static List<Library> generateScheduleIteratively() {
+        int daysLeft = totalDays;
+        List<Library> schedule = new ArrayList<>();
+        while (daysLeft > 0 && allLibraries.size() > 0) {
+            //Library maxLib = maxScoreOverSetUp(daysLeft, scannedBooks);
+            Library maxLib = opCostAlgo(daysLeft);
+            //we choose maxLib to add to our schedule
+            maxLib.publish(daysLeft, scannedBooks);
+            if (maxLib.books.size() > 0) {
+                schedule.add(maxLib);
+            }
+            allLibraries.remove(maxLib);
+            daysLeft -= maxLib.signUpTime;
+            if (daysLeft <= 0) {
+                return schedule; //rippo my bippo
+            }
+        }
+        return schedule;
+    }
     public static Library maxScoreOverSetUp(int daysLeft, Set<Book> scannedBooks) {
         int maxVal = allLibraries.get(0).score(daysLeft, scannedBooks) / allLibraries.get(0).signUpTime;
         Library maxLib = allLibraries.get(0);
